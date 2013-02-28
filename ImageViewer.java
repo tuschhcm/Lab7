@@ -1,3 +1,16 @@
+//*********************************************************************** 
+// Project: Lab 7
+// 
+// Author: Craig Tuschhoff 
+// 
+// Completion time: 2 hours total 
+// 
+// Honor Code: I pledge that this program represents my own program code. 
+// I received help from (write names here or no one) in designing and 
+// debugging my program. 
+//***********************************************************************
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -6,9 +19,9 @@ public class ImageViewer {
    
    //fields
    private static final String COPYRIGHT = 
-      "ImageViewer by Craig Tuschhoff";
-   private static final int WINDOW_HIEGHT = 600;
-   private static final int WINDOW_WIDTH = 500;
+      "\u00a9 ImageViewer by Craig Tuschhoff";
+   private static final int WINDOW_HIEGHT = 500;
+   private static final int WINDOW_WIDTH = 400;
    
    private JPanel bottomPanel;
    private JPanel centerPanel;
@@ -90,9 +103,13 @@ public class ImageViewer {
       
       //create button
       chooseButton = new JButton("Choose Image");
+      chooseButton.setMnemonic(KeyEvent.VK_C);
+      chooseButton.setToolTipText("Choose and image to be displayed");
       
       //create close button
       close = new JButton("Close");
+      close.setMnemonic(KeyEvent.VK_X);
+      close.setToolTipText("Close the program");
       
       //add action listener to button
       chooseButton.addActionListener(new chooseButtonListener());
@@ -110,8 +127,17 @@ public class ImageViewer {
          
          //open file chooser to get file from user
          JFileChooser chooser = new JFileChooser();
-         chooser.showOpenDialog(frame);
-         imageLabel.setIcon(new ImageIcon(chooser.getSelectedFile().getName())); 
+         int status = chooser.showOpenDialog(frame);
+        
+         if(status == JFileChooser.APPROVE_OPTION) {
+            imageLabel.setIcon(new ImageIcon(chooser.getSelectedFile().getPath())); 
+        
+         } else if(status == JFileChooser.CANCEL_OPTION) {
+            return;         
+        
+         } else if(status == JFileChooser.ERROR_OPTION) {
+            return;
+         }
       }
    }
    
@@ -119,7 +145,7 @@ public class ImageViewer {
       public void actionPerformed(ActionEvent e) {
          
          //close the program
-         System.exit(1); 
+         System.exit(0); 
       }
    }
    
